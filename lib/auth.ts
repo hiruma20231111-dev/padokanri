@@ -11,8 +11,8 @@ const GOOGLE_SCOPES = [
   "https://www.googleapis.com/auth/spreadsheets",
 ].join(" ")
 
-// ALLOWED_DOMAIN 環境変数でログイン可能ドメインを制御（デフォルト: kansaipado.co.jp）
-const ALLOWED_DOMAIN = process.env.ALLOWED_DOMAIN || "kansaipado.co.jp"
+// ALLOWED_DOMAIN 環境変数でログイン可能ドメインを制御（空 = 全Googleアカウント許可）
+const ALLOWED_DOMAIN = process.env.ALLOWED_DOMAIN || ""
 
 async function refreshAccessToken(token: Record<string, unknown>) {
   try {
@@ -56,6 +56,7 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   callbacks: {
     async signIn({ user }) {
+      if (!ALLOWED_DOMAIN) return true
       const email = user.email || ""
       return email.endsWith(`@${ALLOWED_DOMAIN}`)
     },

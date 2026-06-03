@@ -21,6 +21,7 @@ import {
   Receipt,
   MessageCircle,
   ExternalLink,
+  Settings,
 } from "lucide-react"
 
 const navItems = [
@@ -143,8 +144,18 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         </div>
       </nav>
 
-      {/* ログアウト */}
-      <div className="px-2 py-4 border-t border-slate-700">
+      {/* 設定・ログアウト */}
+      <div className="px-2 py-4 border-t border-slate-700 space-y-1">
+        <Link
+          href="/settings"
+          title={!isOpen ? "設定" : undefined}
+          className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors ${
+            !isOpen ? "justify-center" : ""
+          }`}
+        >
+          <Settings className="w-4 h-4 flex-shrink-0" />
+          {isOpen && "設定"}
+        </Link>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
           title={!isOpen ? "ログアウト" : undefined}
